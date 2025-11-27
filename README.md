@@ -1,7 +1,5 @@
 # Go プロファイリングワークショップ
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/task4233/gwc-profiling)
-
 > [Go Conference 2025](https://gwc.gocon.jp/2025/workshops/10_understanding_profiling/) ワークショップ用リポジトリ
 
 ## 概要

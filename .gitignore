@@ -2,3 +2,10 @@
 public/
 .hugo_build.lock
 resources/_gen/
+
+exercises/testdata/large/
+exercises/file-search-mcp
+.playwright-mcp/*
+*.pprof
+*.prof
+*.out

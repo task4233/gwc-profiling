@@ -48,5 +48,25 @@ cd gwc-profiling
    - ボトルネックを含むデモアプリケーションへの pprof / runtime/trace の導入
 2. **知見の言語化と共有**
    - pprof と runtime/trace を導入して得られた知見の言語化と、参加者間での共有
-3. **（時間が余った場合）Flight Recorder**
-   - 業務コードや OSS への適用方法に関するディスカッション
+3. **高度なテクニック（時間が余った場合）**
+   - Profile-Guided Optimization (PGO)
+   - Flight Recorder（Go 1.25の新機能）
+   - benchstatによる統計的な効果測定
+
+---
+
+## 参考資料
+
+### 公式ドキュメント
+- [Go Diagnostics](https://go.dev/doc/diagnostics) - プロファイリングツールの総合ガイド
+- [Profiling Go Programs](https://go.dev/blog/pprof) - pprof の基本
+- [Execution Tracer](https://go.dev/blog/execution-tracer) - runtime/trace の基本
+
+### 新機能（Go 1.21+）
+- [Profile-Guided Optimization](https://go.dev/doc/pgo) - PGOの公式ガイド
+- [Flight Recorder in Go 1.25](https://go.dev/blog/flight-recorder) - 本番診断の新手法
+- [More powerful Go execution traces](https://go.dev/blog/execution-traces-2024) - トレース機能の改善
+
+### 学習リソース
+- [Go Optimization Guide](https://goperf.dev/) - 包括的な最適化ガイド
+- [GopherCon Talks](https://www.youtube.com/@GopherConEurope) - プロファイリング関連のトーク多数
