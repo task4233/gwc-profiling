@@ -1,0 +1,221 @@
+/* カスタムスタイル - コードスニペットのダークモード対応 */
+
+/* ダークモードでのコードブロック */
+@media (prefers-color-scheme: dark) {
+  .book-page {
+    /* インラインコード */
+    code {
+      background-color: #2d2d2d !important;
+      color: #f8f8f2 !important;
+      border: 1px solid #444 !important;
+      padding: 2px 6px !important;
+      border-radius: 3px !important;
+    }
+
+    /* コードブロック */
+    pre {
+      background-color: #1e1e1e !important;
+      border: 1px solid #444 !important;
+      border-radius: 4px !important;
+
+      code {
+        background-color: transparent !important;
+        border: none !important;
+        color: #f8f8f2 !important;
+      }
+    }
+
+    /* シンタックスハイライト調整 */
+    .highlight {
+      background-color: #1e1e1e !important;
+
+      pre {
+        background-color: #1e1e1e !important;
+      }
+
+      /* キーワード */
+      .k, .kd, .kn, .kp, .kr, .kt {
+        color: #569cd6 !important;
+      }
+
+      /* 文字列 */
+      .s, .s1, .s2, .sb, .sc {
+        color: #ce9178 !important;
+      }
+
+      /* コメント */
+      .c, .c1, .cm {
+        color: #6a9955 !important;
+        font-style: italic;
+      }
+
+      /* 関数名 */
+      .n, .nx, .nf {
+        color: #dcdcaa !important;
+      }
+
+      /* 数値 */
+      .m, .mi, .mf {
+        color: #b5cea8 !important;
+      }
+
+      /* 演算子 */
+      .o, .ow {
+        color: #d4d4d4 !important;
+      }
+    }
+
+    /* テーブル内のコード */
+    table {
+      code {
+        background-color: #2d2d2d !important;
+        color: #f8f8f2 !important;
+      }
+    }
+
+    /* 引用ブロック内のコード */
+    blockquote {
+      code {
+        background-color: #2d2d2d !important;
+        color: #f8f8f2 !important;
+      }
+    }
+  }
+}
+
+/* ライトモードでのコードブロック（念のため明示） */
+@media (prefers-color-scheme: light) {
+  .book-page {
+    code {
+      background-color: #f5f5f5 !important;
+      color: #333 !important;
+      border: 1px solid #ddd !important;
+      padding: 2px 6px !important;
+      border-radius: 3px !important;
+    }
+
+    pre {
+      background-color: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+
+      code {
+        background-color: transparent !important;
+        border: none !important;
+        color: #333 !important;
+      }
+    }
+
+    .highlight {
+      background-color: #f8f8f8 !important;
+
+      pre {
+        background-color: #f8f8f8 !important;
+      }
+    }
+  }
+}
+
+/* 共通スタイル（モードに関係なく適用） */
+.book-page {
+  /* コードブロックのフォント調整 */
+  code, pre code {
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.9em !important;
+    line-height: 1.6 !important;
+  }
+
+  /* コードブロックの余白 */
+  pre {
+    padding: 16px !important;
+    overflow-x: auto !important;
+    margin: 1em 0 !important;
+  }
+
+  /* コマンドライン風のコードブロック */
+  pre code.language-bash,
+  pre code.language-shell,
+  pre code.language-sh {
+    &::before {
+      content: '$ ';
+      opacity: 0.5;
+    }
+  }
+}
+
+/* detailsタグ（ヒント・解答）のスタイル改善 */
+@media (prefers-color-scheme: dark) {
+  details {
+    background-color: #2a2a2a !important;
+    border: 1px solid #444 !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    margin: 1em 0 !important;
+
+    summary {
+      color: #569cd6 !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+      user-select: none !important;
+
+      &:hover {
+        color: #7cb7ff !important;
+      }
+    }
+
+    &[open] summary {
+      margin-bottom: 8px !important;
+      padding-bottom: 8px !important;
+      border-bottom: 1px solid #444 !important;
+    }
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  details {
+    background-color: #f9f9f9 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    margin: 1em 0 !important;
+
+    summary {
+      color: #0066cc !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+      user-select: none !important;
+
+      &:hover {
+        color: #0052a3 !important;
+      }
+    }
+
+    &[open] summary {
+      margin-bottom: 8px !important;
+      padding-bottom: 8px !important;
+      border-bottom: 1px solid #ddd !important;
+    }
+  }
+}
+
+/* テーブルのダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  table {
+    border-collapse: collapse !important;
+
+    th {
+      background-color: #2d2d2d !important;
+      color: #f8f8f2 !important;
+      border: 1px solid #444 !important;
+    }
+
+    td {
+      border: 1px solid #444 !important;
+      background-color: #1e1e1e !important;
+      color: #d4d4d4 !important;
+    }
+
+    tr:hover td {
+      background-color: #2a2a2a !important;
+    }
+  }
+}

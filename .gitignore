@@ -1,0 +1,10 @@
+# Profiling
+*.out
+*.prof
+
+.git.old/
+
+# Hugo
+public/
+.hugo_build.lock
+resources/_gen/

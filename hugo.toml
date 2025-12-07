@@ -1,0 +1,48 @@
+baseURL = '/'
+languageCode = 'ja'
+title = 'Go プロファイリングワークショップ'
+theme = 'hugo-book'
+
+# Book configuration
+disablePathToLower = true
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+
+  [markup.tableOfContents]
+    startLevel = 1
+
+  [markup.highlight]
+    style = 'github'
+
+[params]
+  # カラーテーマ: light, dark, auto
+  BookTheme = 'auto'
+
+  # 目次の表示
+  BookToC = true
+
+  # ルートページのセクション
+  BookSection = 'docs'
+
+  # リポジトリ情報
+  BookRepo = 'https://github.com/task4233/gwc-profiling'
+
+  # 編集リンク
+  BookEditLink = '{{ .Site.Params.BookRepo }}/edit/main/content/{{ .Path }}'
+
+  # 検索機能
+  BookSearch = true
+
+  # コメント機能は無効
+  BookComments = false
+
+  # ポータブルリンク
+  BookPortableLinks = 'warning'
+
+[menu]
+  [[menu.after]]
+    name = 'GitHub'
+    url = 'https://github.com/task4233/gwc-profiling'
+    weight = 10

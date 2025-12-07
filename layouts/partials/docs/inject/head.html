@@ -1,0 +1,195 @@
+<style>
+/* カスタムスタイル - コードスニペットのダークモード対応 */
+
+/* ダークモードでのコードブロック */
+@media (prefers-color-scheme: dark) {
+  .book-page {
+    /* インラインコード */
+    code {
+      background-color: #2d2d2d !important;
+      color: #f8f8f2 !important;
+      border: 1px solid #444 !important;
+      padding: 2px 6px !important;
+      border-radius: 3px !important;
+    }
+
+    /* コードブロック */
+    pre {
+      background-color: #1e1e1e !important;
+      border: 1px solid #444 !important;
+      border-radius: 4px !important;
+      padding: 16px !important;
+    }
+
+    pre code {
+      background-color: transparent !important;
+      border: none !important;
+      color: #f8f8f2 !important;
+    }
+
+    /* シンタックスハイライト */
+    .highlight {
+      background-color: #1e1e1e !important;
+    }
+
+    .highlight pre {
+      background-color: #1e1e1e !important;
+    }
+
+    /* キーワード */
+    .highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt {
+      color: #569cd6 !important;
+    }
+
+    /* 文字列 */
+    .highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sc {
+      color: #ce9178 !important;
+    }
+
+    /* コメント */
+    .highlight .c, .highlight .c1, .highlight .cm {
+      color: #6a9955 !important;
+      font-style: italic;
+    }
+
+    /* 関数名 */
+    .highlight .n, .highlight .nx, .highlight .nf {
+      color: #dcdcaa !important;
+    }
+
+    /* 数値 */
+    .highlight .m, .highlight .mi, .highlight .mf {
+      color: #b5cea8 !important;
+    }
+
+    /* 演算子 */
+    .highlight .o, .highlight .ow {
+      color: #d4d4d4 !important;
+    }
+
+    /* テーブル */
+    table {
+      border-collapse: collapse !important;
+    }
+
+    table th {
+      background-color: #2d2d2d !important;
+      color: #f8f8f2 !important;
+      border: 1px solid #444 !important;
+    }
+
+    table td {
+      border: 1px solid #444 !important;
+      background-color: #1e1e1e !important;
+      color: #d4d4d4 !important;
+    }
+
+    table tr:hover td {
+      background-color: #2a2a2a !important;
+    }
+
+    /* テーブル内のコード */
+    table code {
+      background-color: #2d2d2d !important;
+      color: #f8f8f2 !important;
+    }
+  }
+
+  /* detailsタグ（ヒント・解答） */
+  details {
+    background-color: #2a2a2a !important;
+    border: 1px solid #444 !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    margin: 1em 0 !important;
+  }
+
+  details summary {
+    color: #569cd6 !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    user-select: none !important;
+  }
+
+  details summary:hover {
+    color: #7cb7ff !important;
+  }
+
+  details[open] summary {
+    margin-bottom: 8px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #444 !important;
+  }
+}
+
+/* ライトモードでのコードブロック */
+@media (prefers-color-scheme: light) {
+  .book-page {
+    code {
+      background-color: #f5f5f5 !important;
+      color: #333 !important;
+      border: 1px solid #ddd !important;
+      padding: 2px 6px !important;
+      border-radius: 3px !important;
+    }
+
+    pre {
+      background-color: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+      padding: 16px !important;
+    }
+
+    pre code {
+      background-color: transparent !important;
+      border: none !important;
+      color: #333 !important;
+    }
+
+    .highlight {
+      background-color: #f8f8f8 !important;
+    }
+
+    .highlight pre {
+      background-color: #f8f8f8 !important;
+    }
+  }
+
+  details {
+    background-color: #f9f9f9 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    margin: 1em 0 !important;
+  }
+
+  details summary {
+    color: #0066cc !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    user-select: none !important;
+  }
+
+  details summary:hover {
+    color: #0052a3 !important;
+  }
+
+  details[open] summary {
+    margin-bottom: 8px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #ddd !important;
+  }
+}
+
+/* 共通スタイル */
+.book-page code,
+.book-page pre code {
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace !important;
+  font-size: 0.9em !important;
+  line-height: 1.6 !important;
+}
+
+.book-page pre {
+  overflow-x: auto !important;
+  margin: 1em 0 !important;
+}
+</style>
