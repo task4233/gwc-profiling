@@ -2,6 +2,8 @@
 public/
 .hugo_build.lock
 resources/_gen/
+*_fixed.go
+*_new.go
 
 exercises/testdata/large/
 exercises/file-search-mcp

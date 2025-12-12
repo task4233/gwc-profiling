@@ -219,3 +219,36 @@
     }
   }
 }
+
+/* メインコンテンツの幅を制限（読みやすさのため） */
+.book-page {
+  width: auto !important;
+  max-width: 80% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 左側のメニュートグルボタンを常に表示 */
+#menu-control {
+  display: inline !important;
+}
+
+/* 左側のメニューをトグル可能にする */
+#menu-control:checked ~ main .book-menu {
+  display: none !important;
+}
+
+/* 右側の目次トグルボタンを常に表示 */
+#toc-control {
+  display: inline !important;
+}
+
+/* ヘッダー（トグルボタンが含まれる）を常に表示 */
+.book-header {
+  display: block !important;
+}
+
+/* 右側の目次をトグル可能にする */
+#toc-control:checked ~ main .book-toc {
+  display: none !important;
+}

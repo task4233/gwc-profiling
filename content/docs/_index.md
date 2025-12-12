@@ -50,7 +50,7 @@ cd gwc-profiling
    - pprof と runtime/trace を導入して得られた知見の言語化と、参加者間での共有
 3. **高度なテクニック（時間が余った場合）**
    - Profile-Guided Optimization (PGO)
-   - Flight Recorder（Go 1.25の新機能）
+   - Flight Recorder（**Go 1.25.0以降**の新機能）
    - benchstatによる統計的な効果測定
 
 ---
