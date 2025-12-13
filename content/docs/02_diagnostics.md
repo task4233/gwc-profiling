@@ -200,7 +200,7 @@ m.HeapInuse       // 使用中のヒープ
 | **メモリ使用量が多い** | 1. Profiling (Heap) | 3. Runtime Stats |
 | **Goroutineリーク** | 1. Profiling (Goroutine) | 2. Tracing |
 | **並行処理が遅い** | 2. Tracing | 1. Profiling (Block/Mutex) |
-| **レイテンシにスパイク** | 2. Tracing | 3. Runtime Stats (GC) |
+| **レイテンシのスパイク** | 2. Tracing | 3. Runtime Stats (GC) |
 | **ロジックのバグ** | 4. Debugging | - |
 
 
