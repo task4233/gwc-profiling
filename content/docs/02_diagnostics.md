@@ -28,15 +28,6 @@ graph TD
 
 <p align="center"><em>図1: Goにおける4つの診断方法の概要</em></p>
 
-> [!NOTE]
-> [公式Wiki](https://go.dev/doc/diagnostics#introduction)によると、一部のツールは相互に干渉する可能性があるため、より正確な情報を得るためにツールを個別に使用することが推奨されています。
-> > Note: Some diagnostics tools may interfere with each other. For example, precise memory profiling skews CPU profiles and goroutine blocking profiling affects scheduler trace. Use tools in isolation to get more precise info. 
-> >
-> > (訳) 一部の診断ツールは互いに干渉する可能性があります。例えば、精度の高いメモリプロファイリングはCPUプロファイルの結果を歪ませ（スキューさせ）、Goroutineのブロッキングプロファイリングはスケジューラのトレースに影響を与えます。より正確な情報を得るためには、ツールを個別に利用してください。
-> >
-> > 出典: [Diagnostics - The Go Programming Language](https://go.dev/doc/diagnostics#introduction)
-
-
 ## 1. Profiling（プロファイリング）
 
 プロファイリングカテゴリは、 **コード上のホットスポットやコストを特定する**のに役立つツールのカテゴリです。例えば、**CPU 時間の消費量**などを測定することができ、それを元にコード上のコストの高いコードや頻繁に呼び出されるコードセクションを特定することができます。このカテゴリの主要なツールとして、実行中のプログラムからプロファイルデータを収集して可視化する**pprof**があります。
@@ -212,6 +203,15 @@ m.HeapInuse       // 使用中のヒープ
 | **レイテンシにスパイク** | 2. Tracing | 3. Runtime Stats (GC) |
 | **ロジックのバグ** | 4. Debugging | - |
 
+
+> [!NOTE]
+> [公式Wiki](https://go.dev/doc/diagnostics#introduction)によると、一部のツールは相互に干渉する可能性があるため、より正確な情報を得るためにツールを個別に使用することが推奨されています。
+> > Note: Some diagnostics tools may interfere with each other. For example, precise memory profiling skews CPU profiles and goroutine blocking profiling affects scheduler trace. Use tools in isolation to get more precise info. 
+> >
+> > (訳) 一部の診断ツールは互いに干渉する可能性があります。例えば、精度の高いメモリプロファイリングはCPUプロファイルの結果を歪ませ（スキューさせ）、Goroutineのブロッキングプロファイリングはスケジューラのトレースに影響を与えます。より正確な情報を得るためには、ツールを個別に利用してください。
+> >
+> > 出典: [Diagnostics - The Go Programming Language](https://go.dev/doc/diagnostics#introduction)
+
 ### 開発フェーズ別の活用
 
 ```mermaid
@@ -231,6 +231,7 @@ graph TD
 ```
 
 <p align="center"><em>図2: 開発フェーズ別の診断ツール活用例</em></p>
+
 
 ---
 

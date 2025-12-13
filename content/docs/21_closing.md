@@ -10,15 +10,15 @@ weight: 210
 ### Part 1: Profiling
 
 - **CPU Profiling**: CPUボトルネックの特定と最適化
-- **Heap Profiling**: メモリリークの検出とアロケーション削減
-- **Goroutine Profiling**: Goroutineリークの検出
-- **Block & Mutex Profiling**: 並行処理のボトルネック特定
+- (**Heap Profiling**: メモリリークの検出とアロケーション削減)
+- (**Goroutine Profiling**: Goroutineリークの検出)
+- (**Block & Mutex Profiling**: 並行処理のボトルネック特定)
 
 ### Part 2: Tracing
 
 - **Trace Basics**: タイムラインでの実行状態の可視化
-- **Task & Region**: User-definedアノテーションによるカスタマイズ
-- **Flight Recorder**: 本番環境での常時記録
+- (**Task & Region**: User-definedアノテーションによるカスタマイズ)
+- (**Flight Recorder**: 本番環境での常時記録)
 
 ### Part 3: 比較とまとめ
 
@@ -148,29 +148,53 @@ graph TD
    - CPU/メモリ問題 → Profiling
    - 並行処理問題 → Tracing（またはProfiling）
 
-### 推奨アプローチ
+### 推奨アプローチ: オブザーバビリティ駆動開発のフィードバックループ
+
+このワークショップの冒頭で紹介した、**フィードバックループを小さくする**という考え方を実践しましょう。
 
 ```mermaid
-graph TD
-    START[パフォーマンス問題の発生]
-    START --> STEP1[1. 問題の性質を特定]
-    STEP1 --> STEP2[2. 適切なツールを選択]
-    STEP2 --> STEP3[3. データを収集]
-    STEP3 --> STEP4[4. データを分析]
-    STEP4 --> STEP5[5. 仮説を立てる]
-    STEP5 --> STEP6[6. 改善を実施]
-    STEP6 --> STEP7[7. 効果を測定]
+graph LR
+    A[1.計装] --> B[2.デプロイ]
+    B --> C[3.観察]
+    C --> D[4.問題の特定]
+    D --> E[5.改善]
+    E --> A
 
-    STEP7 --> JUDGE{改善した?}
-    JUDGE -->|Yes| DONE[完了]
-    JUDGE -->|No| RETHINK[別のツール/<br/>別の仮説を検討]
-    RETHINK --> STEP2
-
-    style STEP2 fill:#fff9c4
-    style JUDGE fill:#fff9c4
+    style A fill:#e1f5ff
+    style C fill:#fff9c4
+    style D fill:#fff9c4
+    style E fill:#e8f5e9
 ```
 
-**ツールを使うこと自体が目的ではなく、問題を解決することが目的です。**
+**5つのステートの詳細**:
+
+1. **計装**: pprofやtraceを組み込む
+   - `net/http/pprof`の有効化
+   - Task/Regionのアノテーション
+   - Flight Recorderの設定（Go 1.25.0以降）
+
+2. **デプロイ**: 計装したコードを環境にデプロイ
+   - 開発環境・ステージング・本番環境
+   - セキュリティ設定（内部ネットワークのみ公開）
+
+3. **観察**: プロファイルやトレースを収集
+   - 定期的なプロファイル取得
+   - 問題発生時のスナップショット
+   - ベースラインとの比較
+
+4. **問題の特定**: データを分析してボトルネックを特定
+   - Flame Graphで全体像を把握
+   - Topで数値を確認
+   - Sourceで実装を確認
+
+5. **改善**: 特定した問題を修正
+   - アルゴリズムの改善
+   - アロケーションの削減
+   - 並行処理の調整
+
+**重要**: このループは**継続的**に回し続けることで、パフォーマンスを維持・改善できます。
+
+**ツールを使うこと自体が目的ではなく、このフィードバックループを回して継続的に改善することが目的です。**
 
 ---
 
@@ -179,8 +203,7 @@ graph TD
 ### 実践で学ぶ
 
 このワークショップで学んだ知識は、**実際のプロジェクトで使ってこそ身につきます**。
-
-#### おすすめの実践方法
+例えば...？
 
 1. **既存プロジェクトにpprofを導入**
    - まずはnet/http/pprofを有効化
@@ -200,6 +223,31 @@ graph TD
    - 再現困難な問題を捉える
    - トレーススナップショットを保存
 
+5. **プロファイルをLLMに投げて利活用する**
+
+   学術領域では以下のようなトピックがホットです：
+
+   **Autonomous Agent for Debug**:
+   - [RepairAgent: An Autonomous, LLM-Based Agent for Program Repair](https://arxiv.org/abs/2403.17134) (ICSE 2025)
+     - LLMベースの自律エージェントによるプログラム修復
+     - Defects4Jデータセットで164個のバグを自動修復（うち39個は従来手法で未修正）
+     - バグ1個あたり平均14セント（GPT-3.5使用時）のコスト
+
+   **Fault Localization**:
+   - プログラムの障害(バグ)の原因となっているコードの場所を自動的または半自動的に特定すること
+   - [Impact of Large Language Models of Code on Fault Localization](https://arxiv.org/abs/2408.09657) (2024)
+     - LLMをファインチューニングして障害箇所を特定
+     - テストケースや実行不要のアプローチを提案
+     - 従来のML手法と比較してTop-1精度が2.3%-54.4%向上
+
+   **教育分野での活用**:
+   - [FLAME: Explainable Fault Localization for Programming Assignments via LLM-Guided Annotation](https://arxiv.org/abs/2509.25676) (2024)
+     - プログラミング課題における説明可能な障害箇所特定
+     - 単に行番号を示すだけでなく、自然言語で詳細な説明を提供
+     - 複数LLMによる投票戦略で精度向上
+     - 教育用データセット PADefects を公開
+
+
 ### コミュニティ
 
 Goのパフォーマンスチューニングについて、以下のコミュニティで学び続けることができます：
@@ -214,7 +262,6 @@ Goのパフォーマンスチューニングについて、以下のコミュニ
 
 - [GopherCon](https://www.gophercon.com/)
 - [Go Conference](https://gocon.jp/)
-- [dotGo](https://www.dotgo.eu/)
 
 #### オープンソースプロジェクト
 

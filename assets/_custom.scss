@@ -5,79 +5,130 @@
   .book-page {
     /* インラインコード */
     code {
-      background-color: #2d2d2d !important;
-      color: #f8f8f2 !important;
-      border: 1px solid #444 !important;
+      background-color: #3a3a3a !important;
+      color: #e6e6e6 !important;
+      border: 1px solid #555 !important;
       padding: 2px 6px !important;
       border-radius: 3px !important;
     }
 
     /* コードブロック */
     pre {
-      background-color: #1e1e1e !important;
-      border: 1px solid #444 !important;
-      border-radius: 4px !important;
+      background-color: #0d1117 !important;
+      border: 1px solid #30363d !important;
+      border-radius: 6px !important;
 
       code {
         background-color: transparent !important;
         border: none !important;
-        color: #f8f8f2 !important;
+        color: #e6edf3 !important;
       }
     }
 
-    /* シンタックスハイライト調整 */
+    /* シンタックスハイライト調整（GitHub Dark準拠） */
     .highlight {
-      background-color: #1e1e1e !important;
+      background-color: #0d1117 !important;
 
       pre {
-        background-color: #1e1e1e !important;
+        background-color: #0d1117 !important;
       }
 
-      /* キーワード */
-      .k, .kd, .kn, .kp, .kr, .kt {
-        color: #569cd6 !important;
+      /* キーワード（func, var, const, if, for, etc.） */
+      .k, .kd, .kn, .kp, .kr, .kt, .kc {
+        color: #ff7b72 !important;
+        font-weight: 500;
       }
 
       /* 文字列 */
-      .s, .s1, .s2, .sb, .sc {
-        color: #ce9178 !important;
+      .s, .s1, .s2, .sb, .sc, .sd {
+        color: #a5d6ff !important;
       }
 
       /* コメント */
-      .c, .c1, .cm {
-        color: #6a9955 !important;
+      .c, .c1, .cm, .ch {
+        color: #8b949e !important;
         font-style: italic;
       }
 
       /* 関数名 */
-      .n, .nx, .nf {
-        color: #dcdcaa !important;
+      .n, .nx, .nf, .fm {
+        color: #d2a8ff !important;
       }
 
       /* 数値 */
-      .m, .mi, .mf {
-        color: #b5cea8 !important;
+      .m, .mi, .mf, .mh, .mb {
+        color: #79c0ff !important;
       }
 
       /* 演算子 */
       .o, .ow {
-        color: #d4d4d4 !important;
+        color: #ff7b72 !important;
+      }
+
+      /* 型（Go specific） */
+      .kt, .nc {
+        color: #ffa657 !important;
+      }
+
+      /* 変数 */
+      .na, .nb, .bp {
+        color: #79c0ff !important;
+      }
+
+      /* プロパティ・属性 */
+      .py {
+        color: #79c0ff !important;
+      }
+
+      /* 組み込み関数 */
+      .nb {
+        color: #d2a8ff !important;
+      }
+
+      /* パッケージ・インポート */
+      .nn {
+        color: #ffa657 !important;
+      }
+
+      /* エスケープシーケンス */
+      .se {
+        color: #79c0ff !important;
+      }
+
+      /* 正規表現 */
+      .sr {
+        color: #7ee787 !important;
+      }
+
+      /* デコレータ */
+      .nd {
+        color: #d2a8ff !important;
+      }
+
+      /* 句読点 */
+      .p {
+        color: #e6edf3 !important;
+      }
+
+      /* エラー・警告マーカー（❌ ✓など） */
+      .err {
+        color: #ff7b72 !important;
       }
     }
 
     /* テーブル内のコード */
     table {
       code {
-        background-color: #2d2d2d !important;
-        color: #f8f8f2 !important;
+        background-color: #3a3a3a !important;
+        color: #e6e6e6 !important;
       }
     }
 
     /* 引用ブロック内のコード */
     blockquote {
       code {
-        background-color: #2d2d2d !important;
-        color: #f8f8f2 !important;
+        background-color: #3a3a3a !important;
+        color: #e6e6e6 !important;
       }
     }
   }

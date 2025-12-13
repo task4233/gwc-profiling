@@ -1,47 +1,45 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
-	"os/signal"
 	"path/filepath"
 	"regexp"
 	"runtime/pprof"
 	"runtime/trace"
 	"strings"
 	"sync"
-	"syscall"
-
-	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 var (
 	cpuprofile = flag.String("cpuprofile", "", "CPUプロファイル出力先")
 	memprofile = flag.String("memprofile", "", "メモリプロファイル出力先")
 	traceFile  = flag.String("trace", "", "トレース出力先")
+	port       = flag.String("port", "8080", "HTTPサーバのポート番号")
 )
 
-// ツールの入力定義
-type SearchInput struct {
-	Pattern    string   `json:"pattern" jsonschema:"required,description=検索する正規表現パターン"`
-	Paths      []string `json:"paths" jsonschema:"required,description=検索対象のパスリスト"`
-	MaxResults int      `json:"max_results,omitempty" jsonschema:"description=最大結果数（デフォルト: 100）"`
+// リクエストの定義
+type SearchRequest struct {
+	Pattern    string   `json:"pattern"`
+	Paths      []string `json:"paths"`
+	MaxResults int      `json:"max_results,omitempty"`
 }
 
-// ツールの出力定義
-type SearchOutput struct {
-	Matches []Match `json:"matches" jsonschema:"description=マッチした結果のリスト"`
-	Total   int     `json:"total" jsonschema:"description=マッチした総数"`
+// レスポンスの定義
+type SearchResponse struct {
+	Matches []Match `json:"matches"`
+	Total   int     `json:"total"`
 }
 
 type Match struct {
-	File    string `json:"file" jsonschema:"description=ファイルパス"`
-	Line    int    `json:"line" jsonschema:"description=行番号"`
-	Content string `json:"content" jsonschema:"description=マッチした行の内容"`
+	File    string `json:"file"`
+	Line    int    `json:"line"`
+	Content string `json:"content"`
 }
 
 // グローバル変数（問題5: グローバルロックでの競合）
@@ -57,72 +55,56 @@ func main() {
 	setupProfiling()
 	defer cleanupProfiling()
 
-	// シグナルハンドリング設定（Ctrl+C対応）
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	// HTTPハンドラの登録
+	http.HandleFunc("/search", searchHandler)
+	http.HandleFunc("/health", healthHandler)
 
-	go func() {
-		<-sigChan
-		fmt.Fprintln(os.Stderr, "\n🛑 シグナルを受信しました。クリーンアップ中...")
-		cleanupProfiling()
-		os.Exit(0)
-	}()
+	addr := ":" + *port
+	fmt.Fprintf(os.Stderr, "🔍 File Search HTTP Server\n")
+	fmt.Fprintf(os.Stderr, "📍 http://localhost%s で起動中...\n", addr)
+	fmt.Fprintf(os.Stderr, "📊 pprof: http://localhost%s/debug/pprof/\n", addr)
+	fmt.Fprintf(os.Stderr, "\n")
 
-	// MCPサーバの作成
-	server := mcp.NewServer("file-search-mcp", "1.0.0", nil)
-
-	// ツールの追加
-	server.AddTools(mcp.NewServerTool[SearchInput, SearchOutput]("search",
-		"ファイル内容を正規表現で検索します。Go言語ファイル(.go)のみを対象とします。",
-		SearchTool))
-
-	fmt.Fprintln(os.Stderr, "🔍 File Search MCP Server")
-	fmt.Fprintln(os.Stderr, "📍 stdio transport で起動中...")
-	fmt.Fprintln(os.Stderr, "")
-
-	// stdioトランスポートで実行
-	if err := server.Run(context.Background(), mcp.NewStdioTransport()); err != nil {
+	// HTTPサーバの起動
+	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal(err)
 	}
 }
 
-// SearchTool - ファイル検索ツールの実装
-func SearchTool(
-	ctx context.Context,
-	session *mcp.ServerSession,
-	params *mcp.CallToolParamsFor[SearchInput],
-) (*mcp.CallToolResultFor[SearchOutput], error) {
+// healthHandler - ヘルスチェックエンドポイント
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("OK"))
+}
+
+// searchHandler - ファイル検索エンドポイント
+func searchHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req SearchRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, fmt.Sprintf("Invalid request: %v", err), http.StatusBadRequest)
+		return
+	}
+
 	// デフォルト値
-	if params.Arguments.MaxResults == 0 {
-		params.Arguments.MaxResults = 100
+	if req.MaxResults == 0 {
+		req.MaxResults = 100
 	}
 
 	// 検索実行
-	matches := search(params.Arguments.Pattern, params.Arguments.Paths, params.Arguments.MaxResults)
+	matches := search(req.Pattern, req.Paths, req.MaxResults)
 
-	output := SearchOutput{
+	resp := SearchResponse{
 		Matches: matches,
 		Total:   len(matches),
 	}
 
-	// JSONにシリアライズ
-	jsonBytes, err := json.MarshalIndent(output, "", "  ")
-	if err != nil {
-		return nil, fmt.Errorf("JSON serialization error: %w", err)
-	}
-
-	result := &mcp.CallToolResultFor[SearchOutput]{
-		StructuredContent: output,
-	}
-
-	// テキストコンテンツを追加
-	result.Content = []mcp.Content{
-		&mcp.TextContent{
-			Text: string(jsonBytes),
-		},
-	}
-
-	return result, nil
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp)
 }
 
 // 問題1: 正規表現を毎回コンパイル（CPU問題 - pprofで顕著）
